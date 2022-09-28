@@ -2,4 +2,5 @@
 
 # Steps
 
-1.  Design home page
+1.  Home page
+2.  Products
