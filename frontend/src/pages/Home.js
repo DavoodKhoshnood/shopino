@@ -1,7 +1,9 @@
 import React, { useEffect, useReducer } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import logger from "use-reducer-logger";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Product from "../components/Product";
 // import data from "../../../backend/data";
 
 const reducer = (state, action) => {
@@ -16,8 +18,8 @@ const reducer = (state, action) => {
       return state;
   }
 };
-
 const Home = () => {
+
   // const [products, setProducts] = useState([]);
   const [{ loading, error, products }, dispatch] = useReducer(logger(reducer), {
     loading: true,
@@ -47,24 +49,15 @@ const Home = () => {
         ) : error ? (
           <div>{error}</div>
         ) : (
-          products.map((product) => {
+          <Row>
+          {products.map((product) => {
             return (
-              <div className="product" key={product.slug}>
-                <Link to={`/products/${product.slug}`}>
-                  <img src={product.image} alt={product.name} />
-                </Link>
-                <div className="product-info">
-                  <Link to={`/products/${product.slug}`}>
-                    <p>{product.name}</p>
-                  </Link>
-                  <p>
-                    <strong>£{product.price}</strong>
-                  </p>
-                  <button>Add to cart</button>
-                </div>
-              </div>
+              <Col sm={6} md={4} lg={3} className="mb-3" key={product.slug}>
+                <Product product={product} />
+              </Col>
             );
-          })
+          })}
+          </Row>
         )}
       </div>
     </div>

@@ -7,19 +7,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-header {
-  background-color: #404040;
-  padding: 1rem;
-}
 
-header a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
+.inside-container {
+  min-height: 100vh;
 }
 
 main {
-  padding: 1rem;
+  flex: 1;
 }
 
 .products {
@@ -40,4 +34,8 @@ main {
 
 .product-info {
   padding: 1rem;
+}
+
+.rating span {
+  color: #ffc000
 }
