@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Rating from '../components/Rating';
 import Button from 'react-bootstrap/esm/Button';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -21,7 +22,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
-const Product = () => {
+const Products = () => {
   const params = useParams();
   const {slug} = params;
   // const [products, setProducts] = useState([]);
@@ -55,7 +56,9 @@ const Product = () => {
         <Col md={3}>
           <ListGroup variant="flush">
           <ListGroup.Item>
-              <h1>{product.name}</h1>
+            <Helmet>
+              <title>{product.name}</title>
+            </Helmet>
             </ListGroup.Item>
             <ListGroup.Item>
               <Rating rating={product.rating} numReview={product.numReview} />
@@ -109,4 +112,4 @@ const Product = () => {
   )
 };
 
-export default Product;
+export default Products;

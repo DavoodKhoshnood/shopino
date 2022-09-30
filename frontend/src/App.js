@@ -3,7 +3,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
 import Home from "./pages/Home";
-import Product from "./pages/Product";
+import Product from "./pages/Products";
 
 function App() {
   return (
