@@ -13,6 +13,7 @@ body {
 }
 
 main {
+  padding: 1rem;
   flex: 1;
 }
 
@@ -37,5 +38,14 @@ main {
 }
 
 .rating span {
-  color: #ffc000
+  color: #ff9000
+}
+
+.btn-primary {
+  background-color: #f0c040;
+  color: #000;
+}
+
+.img-large {
+  max-width: 100%;
 }
