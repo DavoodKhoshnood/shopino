@@ -22,9 +22,9 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>Shopino</Navbar.Brand>
               </LinkContainer>
-              <Nav className="me-auto">
+              <Nav className="d-flex justify-content-between">
                 <Link to="/cart" className="nav-link">
-                  Card
+                  <i title="Cart" className="fa fa-cart-shopping"></i>                
                   {cart.cartItems.length > 0 && (
                     <Badge pill bg="danger">
                       {cart.cartItems.length}
