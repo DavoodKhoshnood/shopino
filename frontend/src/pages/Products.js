@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -27,6 +27,7 @@ const reducer = (state, action) => {
   }
 };
 const Products = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const { slug } = params;
   // const [products, setProducts] = useState([]);
@@ -48,9 +49,18 @@ const Products = () => {
     fetchData();
   }, [slug]);
 
-  const { state, dispatch: ctxtDispatch } = useContext(Store);
-  const addToCartHandler = () => {
-    ctxtDispatch({type: 'CART_ADD_ITEM', payload: {...product, quantity: 1 }})
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state; 
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((item) => item._id === product._id)
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if ( data.countInStock < quantity ) {
+      window.alert('Product is out of stock');
+      return;
+    }
+    ctxDispatch({type: 'CART_ADD_ITEM', payload: {...product, quantity }});
+    navigate('/cart');
   }
 
   return loading ? (
