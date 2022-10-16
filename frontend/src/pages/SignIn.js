@@ -6,7 +6,8 @@ import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Store } from "../Store";
-
+import { toast } from 'react-toastify';
+import { getError } from '../utils';
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ const SignIn = () => {
         localStorage.setItem('userInfo', JSON.stringify(data))
         navigate(redirect || '/')
       } catch(error) {
-        alert('Invalid email or password')
+        toast.error(getError(error))
       }
     };
 
