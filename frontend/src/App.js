@@ -15,6 +15,7 @@ import Product from "./pages/Products";
 import Cart from "./pages/Cart";
 import SignIn from "./pages/SignIn";
 import Shipping from "./pages/Shipping";
+import Signup from "./pages/Signup";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -28,7 +29,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="d-flex flex-column inside-container">
-        <ToastContainer position="bottom-right" limit={3} />
+        <ToastContainer position="bottom-right" limit={5} />
         <header>
           <Navbar bg="dark" variant="dark">
             <Container>
@@ -72,6 +73,7 @@ function App() {
               <Route path="/products/:slug" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/shipping" element={<Shipping />} />
             </Routes>
           </Container>
