@@ -1,19 +1,26 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Helmet } from "react-helmet-async"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { Store } from "../Store"
+import Checkout from "../components/Checkout"
 
 const Shipping = () => {
     const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
-    const [fullName, setFullName] = useState('')
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [postcode, setPostcode] = useState('')
-    const [country, setCountry] = useState('')
+    const { userInfo, cart: { shippingAddress } } = state;
+    const [fullName, setFullName] = useState(shippingAddress.fullName || '')
+    const [address, setAddress] = useState(shippingAddress.address || '')
+    const [city, setCity] = useState(shippingAddress.city || '')
+    const [postcode, setPostcode] = useState(shippingAddress.postcode || '')
+    const [country, setCountry] = useState(shippingAddress.country || '')
 
+    useEffect(()=> {
+        if(!userInfo) {
+            navigate('/signin?redirect=/shipping')
+        }
+    }, [ userInfo, navigate ])
     const submitHandler = (event) => {
         event.preventDefault();
         ctxDispatch({
@@ -33,13 +40,14 @@ const Shipping = () => {
             postcode,
             country,
         }))
-        Navigate('/payment');
+        navigate('/payment');
     } 
   return (
     <div>
         <Helmet>
             <title>Shipping Address</title>
         </Helmet>
+        <Checkout step1 step2 ></Checkout>
         <div className="container small-container" >
         <h1 className="my-3">Shipping Address</h1>
         <Form onSubmit={submitHandler} >
