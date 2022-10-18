@@ -30,7 +30,7 @@ const Cart = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/signin?redirect=/shipping");
+    navigate("/signin?redirect=/payment");
   };
   return (
     <div>
