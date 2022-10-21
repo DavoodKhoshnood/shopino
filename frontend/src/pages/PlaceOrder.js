@@ -12,7 +12,7 @@ import Checkout from "../components/Checkout";
 const PlaceOrder = () => {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { card, userInfo } = state;
+  const { cart, userInfo } = state;
   return (
     <div>
       <Checkout step1 step2 step3 step4></Checkout>
@@ -23,17 +23,40 @@ const PlaceOrder = () => {
       <Row>
         <Col md={8}>
           <Card className="mb-3">
-            <Card.Body>
+          <Card.Body>
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
-                <strong>Name:</strong> {card.shippingAddress.fullName} <br />
-                <strong>Address:</strong> {card.shippingAddress.address} <br />
-                <strong>City:</strong> {card.shippingAddress.city} <br />
-                <strong>Postcode:</strong> {card.shippingAddress.Postcode}{" "}
-                <br />
-                <strong>Country:</strong> {card.shippingAddress.country} <br />
+                <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
+                <strong>Address:</strong> {cart.shippingAddress.address}, {cart.shippingAddress.city}, {cart.shippingAddress.Postcode}, {cart.shippingAddress.country} <br />
               </Card.Text>
               <Link to="/shipping">Edit</Link>
+            </Card.Body>
+            </Card>
+            <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Payment</Card.Title>
+              <Card.Text>
+                <strong>Method:</strong> {cart.paymentMethod} <br />
+              </Card.Text>
+              <Link to="/payment">Edit</Link>
+            </Card.Body>
+          </Card>
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Items</Card.Title>
+              <ListGroup variant="flush">
+                {cart.cartItems.map((item)=> (
+                  <ListGroup.Item key={item._id}>
+                    <Row className="align-items-center" >
+                      <Col md={6}>
+                        <img src={item.image} alt={item.name} className="img-fluid rounded img-thumbnail" />{" "}
+                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
+              <Link to="/cart">Edit</Link>
             </Card.Body>
           </Card>
         </Col>
