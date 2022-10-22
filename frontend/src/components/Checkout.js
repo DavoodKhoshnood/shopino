@@ -3,12 +3,12 @@ import Row from "react-bootstrap/esm/Row"
 
 const Checkout = (props) => {
   return (
-    <Row className="checkout">
-        <Col className={props.step1 && 'active'}>Sign-In</Col>
-        <Col className={props.step2 && 'active'}>Shipping</Col>
-        <Col className={props.step3 && 'active'}>Payment</Col>
-        <Col className={props.step4 && 'active'}>Place Order</Col>
-    </Row>
+    <div className="track">
+    <div className={props.step1 && 'active'}> <span className="icon"> <i className="fa fa-user"></i> </span> <span className="text">Sign In</span> </div>
+    <div className={props.step2 && 'active'}> <span className="icon"> <i className="fa fa-truck"></i> </span> <span className="text">Shipping</span> </div>
+    <div className={props.step3 && 'active'}> <span className="icon"> <i className="fa fa-credit-card"></i> </span> <span className="text">Payment</span> </div>
+    <div className={props.step4 && 'active'}> <span className="icon"> <i className="fa fa-box"></i> </span> <span className="text">Place Order</span> </div>
+</div>
   )
 }
 
