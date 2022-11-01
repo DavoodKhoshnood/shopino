@@ -95,7 +95,7 @@ const PlaceOrder = () => {
               <Card.Text>
                 <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
                 <strong>Address:</strong> {cart.shippingAddress.address},{" "}
-                {cart.shippingAddress.city}, {cart.shippingAddress.Postcode},{" "}
+                {cart.shippingAddress.city}, {cart.shippingAddress.postcode},{" "}
                 {cart.shippingAddress.country} <br />
               </Card.Text>
               <Link to="/shipping">Edit</Link>

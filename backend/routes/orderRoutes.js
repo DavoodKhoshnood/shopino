@@ -4,9 +4,9 @@ import expressAsyncHandler from 'express-async-handler';
 import { generateToken } from '../utils.js';
 import { isAuth } from '../utils.js'
 
-const orderRuoter = express.Router();
+const orderRouter = express.Router();
 
-orderRuoter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
+orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     const newOrder = new Order({
         orderItems: req.body.orderItems.map((item)=> ({ ...item, product: item._id })),
         shippingAddress: req.body.shippingAddress,
@@ -20,7 +20,21 @@ orderRuoter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
 
     const order = await newOrder.save()
     res.status(201).send({ message: 'New Order Created', order})
-}))
+}));
+
+orderRouter.get(
+    '/:id',
+    isAuth,
+    expressAsyncHandler(async (req, res) => {
+      const order = await Order.findById(req.params.id);
+      console.log('order::', order);
+      if (order) {
+        res.send(order);
+      } else {
+        res.status(404).send({ message: 'Order Not Found' });
+      }
+    })
+  );
 
 
-export default orderRuoter;
+export default orderRouter;
