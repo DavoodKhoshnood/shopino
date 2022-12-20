@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-import Axios from 'axios';
 import React, { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
@@ -11,7 +10,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import { Store } from '../Store';
-import CheckoutSteps from '../components/CheckoutSteps';
+import CheckoutSteps from '../components/Checkout';
 import LoadingBox from '../components/LoadingBox';
 
 const reducer = (state, action) => {
@@ -45,7 +44,6 @@ export default function PlaceOrder() {
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
-  const placeOrderHandler = async () => {};
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
@@ -97,7 +95,7 @@ export default function PlaceOrder() {
               <Card.Text>
                 <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
                 <strong>Address: </strong> {cart.shippingAddress.address},
-                {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},
+                {cart.shippingAddress.city}, {cart.shippingAddress.postCode},
                 {cart.shippingAddress.country}
               </Card.Text>
               <Link to="/shipping">Edit</Link>

@@ -17,8 +17,8 @@ export default function Shipping() {
   const [fullName, setFullName] = useState(shippingAddress.fullName || '');
   const [address, setAddress] = useState(shippingAddress.address || '');
   const [city, setCity] = useState(shippingAddress.city || '');
-  const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ''
+  const [postCode, setPostCode] = useState(
+    shippingAddress.postCode || ''
   );
   useEffect(() => {
     if (!userInfo) {
@@ -34,7 +34,7 @@ export default function Shipping() {
         fullName,
         address,
         city,
-        postalCode,
+        postCode,
         country,
         location: shippingAddress.location,
       },
@@ -45,7 +45,7 @@ export default function Shipping() {
         fullName,
         address,
         city,
-        postalCode,
+        postCode,
         country,
         location: shippingAddress.location,
       })
@@ -91,11 +91,11 @@ export default function Shipping() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="postalCode">
-            <Form.Label>Postal Code</Form.Label>
+          <Form.Group className="mb-3" controlId="postCode">
+            <Form.Label>PostCode</Form.Label>
             <Form.Control
-              value={postalCode}
-              onChange={(e) => setPostalCode(e.target.value)}
+              value={postCode}
+              onChange={(e) => setPostCode(e.target.value)}
               required
             />
           </Form.Group>
