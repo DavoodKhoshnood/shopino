@@ -1,43 +1,40 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import axios from "axios";
+import React, { useContext, useEffect, useReducer } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
-import { Store } from '../Store';
-import { getError } from '../utils';
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ListGroup from "react-bootstrap/ListGroup";
+import Card from "react-bootstrap/Card";
+import { Link } from "react-router-dom";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import { Store } from "../Store";
+import { getError } from "../utils";
+import { toast } from "react-toastify";
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return {
-       ...state,
-        loading: true,
-        error: ''
-      };
-    case 'FETCH_SUCCESS':
-      return {
-       ...state,
-        loading: false,
-        order: action.payload,
-        error: ''
-      };
-      case 'FETCH_FAIL':
-        return {
-         ...state,
-         loading: false,
-         error: action.payload
-        };
-        default:
-          return state;
-      }
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, order: action.payload, error: "" };
+    case "FETCH_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "PAY_REQUEST":
+      return { ...state, loadingPay: true };
+    case "PAY_SUCCESS":
+      return { ...state, loadingPay: false, successPay: true };
+    case "PAY_FAIL":
+      return { ...state, loadingPay: false };
+    case "PAY_RESET":
+      return { ...state, loadingPay: false, successPay: false };
+    default:
+      return state;
+  }
 }
 
 export default function Order() {
@@ -49,62 +46,119 @@ export default function Order() {
 
   // const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const navigate = useNavigate();
-  const [ { loading, error, order }, dispatch ] = useReducer( reducer, 
-    { loading: true, error: '', order: {} }); 
-  
-  useEffect(()=>{
+  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      error: "",
+      order: {},
+      successPay: false,
+      loadingPay: false,
+    });
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+  const createOrder = (data, actions) =>
+    actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: order.totalPrice },
+          },
+        ],
+      })
+      .then((orderId) => orderId);
+
+  const onApprove = (data, actions) =>
+    actions.order.capture().then(async (details) => {
+      try {
+        dispatch({ type: "PAY_REQUEST" });
+        const { data } = await axios.put(
+          `/api/orders/${order._id}/pay`,
+          details,
+          {
+            headers: { authorization: `Bearer ${userInfo.token}` },
+          }
+        );
+        dispatch({ type: "PAY_SUCCESS", payload: data });
+        toast.success("Order is paid");
+      } catch (err) {
+        dispatch({ type: "PAY_FAIL", payload: getError(err) });
+        toast.error(getError(err));
+      }
+    });
+
+  const onError = (err) => {
+    toast.error(getError(err));
+  };
+
+  useEffect(() => {
     const fetchOrder = async () => {
       try {
-        dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/orders/${orderId}`, 
-          { headers: { authorization: `Bearer ${userInfo.token}` }, 
+        dispatch({ type: "FETCH_REQUEST" });
+        const { data } = await axios.get(`/api/orders/${orderId}`, {
+          headers: { authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (error) {
-        dispatch({ type: 'FETCH_FAIL', payload: getError(error) });
+        dispatch({ type: "FETCH_FAIL", payload: getError(error) });
       }
-    }
+    };
 
     if (!userInfo) {
-      return navigate('/login')
+      return navigate("/login");
     }
-    if ( !order._id || (order._id && order._id !== orderId )) {
-      fetchOrder()
-      console.log(orderId);
-      console.log(order);
+    if (!order._id || successPay || (order._id && order._id !== orderId)) {
+      fetchOrder();
+      if (successPay) {
+        dispatch({ type: "PAY_RESET" });
+      }
+    } else {
+      const loadPayPalScript = async () => {
+        const { data: clientId } = await axios.get('api/keys/paypal', {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            "client-id": clientId,
+            currency: "GBP",
+          },
+        });
+        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+      };
+      loadPayPalScript();
     }
-  }, [order, userInfo, orderId, navigate]);
+  }, [order, userInfo, orderId, paypalDispatch, successPay, navigate]);
 
-  return loading ?
-    (<LoadingBox></LoadingBox>)
-    : error ? (
-      <MessageBox variant="danger">{error}</MessageBox>
-    )
-    : (
-      <div>
-        <Helmet>
-          <title>Order {orderId} </title>
-        </Helmet>
-        <Row>
-          <Col md={8}>
-            <Card className="mb-3">
-              <Card.Body>
-                <Card.Title>Shopping</Card.Title>
-                <Card.Text>
-                  <strong>Name:</strong> {order.shippingAddress.fullName} <br />
-                  <strong>Address:</strong> {order.shippingAddress.address},
-                  {order.shippingAddress.city}, {order.shippingAddress.postCode}, {order.shippingAddress.country}
-                </Card.Text>
-                {order.isDelivered ? (
-                  <MessageBox variant="success">
-                   Delivered at {order.deliveredAt}
-                  </MessageBox>
-                ) : (
-                  <MessageBox variant="danger">Not Delivered</MessageBox>
-                )}
-              </Card.Body>
-            </Card>
-            <Card className="mb-3">
+  return loading ? (
+    <LoadingBox></LoadingBox>
+  ) : error ? (
+    <MessageBox variant="danger">{error}</MessageBox>
+  ) : (
+    <div>
+      <Helmet>
+        <title>Order {orderId} </title>
+      </Helmet>
+      <Row>
+        <Col md={8}>
+          <Card className="mb-3">
+            <Card.Body>
+              <Card.Title>Shopping</Card.Title>
+              <Card.Text>
+                <strong>Name:</strong> {order.shippingAddress.fullName} <br />
+                <strong>Address:</strong> {order.shippingAddress.address},
+                {order.shippingAddress.city}, {order.shippingAddress.postCode},{" "}
+                {order.shippingAddress.country}
+              </Card.Text>
+              {order.isDelivered ? (
+                <MessageBox variant="success">
+                  Delivered at {order.deliveredAt}
+                </MessageBox>
+              ) : (
+                <MessageBox variant="danger">Not Delivered</MessageBox>
+              )}
+            </Card.Body>
+          </Card>
+          <Card className="mb-3">
             <Card.Body>
               <Card.Title>Payment</Card.Title>
               <Card.Text>
@@ -132,7 +186,7 @@ export default function Order() {
                           src={item.image}
                           alt={item.name}
                           className="img-fluid rounded img-thumbnail"
-                        ></img>{' '}
+                        ></img>{" "}
                         <Link to={`/product/${item.slug}`}>{item.name}</Link>
                       </Col>
                       <Col md={3}>
@@ -181,7 +235,7 @@ export default function Order() {
                 </ListGroup.Item>
                 {!order.isPaid && (
                   <ListGroup.Item>
-                    {/* {isPending ? (
+                    {isPending ? (
                       <LoadingBox />
                     ) : (
                       <div>
@@ -191,25 +245,22 @@ export default function Order() {
                           onError={onError}
                         ></PayPalButtons>
                       </div>
-                    )} */}
-                    {/* {loadingPay && <LoadingBox></LoadingBox>} */}
+                    )}
+                    {loadingPay && <LoadingBox></LoadingBox>}
                   </ListGroup.Item>
                 )}
                 {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                   <ListGroup.Item>
-                    {/* {loadingDeliver && <LoadingBox></LoadingBox>} */}
                     <div className="d-grid">
-                      {/* <Button type="button" onClick={deliverOrderHandler}>
-                        Deliver Order
-                      </Button> */}
+            
                     </div>
                   </ListGroup.Item>
                 )}
-              </ListGroup>
+              </ListGroup>{" "}
             </Card.Body>
           </Card>
-          </Col>
-        </Row>
-      </div>
-  )
+        </Col>
+      </Row>
+    </div>
+  );
 }
