@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import PaymentMethod from "./pages/PaymentMethod";
 import PlaceOrder from "./pages/PlaceOrder";
 import Order from "./pages/Order";
+import OrderHistory from "./pages/OrderHistory";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -32,15 +33,17 @@ function App() {
   }
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column inside-container">
-        <ToastContainer position="bottom-right" limit={5} />
+      <div className="d-flex flex-column site-container">
+        <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark">
+          <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/">
                 <Navbar.Brand>Shopino</Navbar.Brand>
               </LinkContainer>
-              <Nav className="d-flex justify-content-between">
+              <Navbar.Toggle aria-controls='basic-navbar-nav' />
+              <Navbar.Collapse id='basic-navbar-nav'>
+              <Nav className="me-auto w-100 justify-content-end">
                 <Link to="/cart" className="nav-link">
                   <i title="Cart" className="fa fa-cart-shopping"></i>                
                   {cart.cartItems.length > 0 && (
@@ -67,6 +70,7 @@ function App() {
                   Sign In </Link>
                 )}
               </Nav>
+              </Navbar.Collapse>
             </Container>
           </Navbar>
         </header>
@@ -82,6 +86,7 @@ function App() {
               <Route path="/payment" element={<PaymentMethod />} />
               <Route path="/placeorder" element={<PlaceOrder />} />
               <Route path="/order/:id" element={<Order />} />
+              <Route path="/orderhistory" element={<OrderHistory />} />
             </Routes>
           </Container>
         </main>
