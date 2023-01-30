@@ -20,6 +20,7 @@ import PaymentMethod from "./pages/PaymentMethod";
 import PlaceOrder from "./pages/PlaceOrder";
 import Order from "./pages/Order";
 import OrderHistory from "./pages/OrderHistory";
+import Profile from "./pages/Profile";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -30,6 +31,7 @@ function App() {
     localStorage.removeItem('shippingAddress')
     localStorage.removeItem('paymentMethod')
     localStorage.removeItem('placeOrder')
+    window.location.href = '/signin';
   }
   return (
     <BrowserRouter>
@@ -78,6 +80,7 @@ function App() {
           <Container>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/products/:slug" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/signin" element={<SignIn />} />
