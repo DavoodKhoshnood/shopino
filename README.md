@@ -1,8 +1,4 @@
 # MERN SHOPINO
 
-# Steps
-
-1.  Home page
-2.  Products
-3.  Create API
-4. Use Reducer instead of State
+## ECommerce online shop using MERN stack
+Technologies: MongoDB, Express.js, React.js, Node.js, Bootstrap, Git, GitHub
