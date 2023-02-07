@@ -1,0 +1,22 @@
+{
+  "name": "shopino",
+  "version": "1.0.0",
+  "description": "## ECommerce online shop using MERN stack Technologies: MongoDB, Express.js, React.js, Node.js, Bootstrap, Git, GitHub",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "node backend/server.js",
+    
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavoodKhoshnood/shopino.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavoodKhoshnood/shopino/issues"
+  },
+  "homepage": "https://github.com/DavoodKhoshnood/shopino#readme"
+}

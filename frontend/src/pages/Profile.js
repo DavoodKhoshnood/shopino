@@ -59,8 +59,6 @@ const Profile = () => {
             });
             toast.error(getError(err));
         }
-
-
     }
 
   return (
