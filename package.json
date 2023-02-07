@@ -1,6 +1,9 @@
 {
   "name": "shopino",
   "version": "1.0.0",
+  "engines": {
+    "node": "18.x"
+  },
   "description": "## ECommerce online shop using MERN stack Technologies: MongoDB, Express.js, React.js, Node.js, Bootstrap, Git, GitHub",
   "main": "index.js",
   "scripts": {
