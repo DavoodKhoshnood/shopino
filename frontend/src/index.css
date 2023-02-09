@@ -109,3 +109,29 @@ main {
   display: block;
   margin-top: 7px;
 }
+
+/* sidebar */
+.site-container {
+  transition: 0.4s;
+}
+.side-navbar {
+  width: 240px;
+  height: 100%;
+  position: absolute;
+  left: -240px;
+  background-color: #100901;
+  transition: 0.4s;
+  color: #f0c040;
+}
+.navbar-brand {
+  font-weight: bold;
+}
+.navbar-link {
+  color: #f0c040;
+}
+.active-cont {
+  margin-left: 240px;
+}
+.active-nav {
+  left: 0;
+}
