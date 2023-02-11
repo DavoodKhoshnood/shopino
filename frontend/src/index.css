@@ -1,3 +1,13 @@
+:root {
+  /* --first-color: #f0c040;
+  --second-color: #f08000; 
+  --rating-color: #ff9000; */
+
+  --first-color: #10c0ff;
+  --second-color: #108090; 
+  --rating-color: #303099;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -38,11 +48,11 @@ main {
 }
 
 .rating span {
-  color: #ff9000
+  color: var(--rating-color)
 }
 
-.btn-primary {
-  background-color: #f0c040;
+.btn-primary, .btn-outline-primary {
+  background-color: var(--first-color);
   color: #000;
 }
 
@@ -78,7 +88,7 @@ main {
   position: relative;
 }
 .track > div.active:before {
-  background: #f08000;
+  background: var(--second-color);
 }
 .track > div::before {
   height: 7px;
@@ -89,7 +99,7 @@ main {
   top: 18px;
 }
 .track > div.active .icon {
-  background: #f08000;
+  background: var(--second-color);
   color: #fff;
 }
 .track .icon {
@@ -121,13 +131,13 @@ main {
   left: -240px;
   background-color: #100901;
   transition: 0.4s;
-  color: #f0c040;
+  color: var(--first-color);
 }
 .navbar-brand {
   font-weight: bold;
 }
 .navbar-link {
-  color: #f0c040;
+  color: var(--first-color);
 }
 .active-cont {
   margin-left: 240px;

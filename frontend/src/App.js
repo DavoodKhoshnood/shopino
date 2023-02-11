@@ -24,6 +24,8 @@ import Profile from "./pages/Profile";
 import Button from 'react-bootstrap/Button';
 import { getError } from "./utils";
 import axios from "axios";
+import SearchBox from './components/SearchBox';
+import Search from './pages/Search';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -64,6 +66,7 @@ function App() {
               </LinkContainer>
               <Navbar.Toggle aria-controls='basic-navbar-nav' />
               <Navbar.Collapse id='basic-navbar-nav'>
+                <SearchBox />
               <Nav className="me-auto w-100 justify-content-end">
                 <Link to="/cart" className="nav-link">
                   <i title="Cart" className="fa fa-cart-shopping"></i>                
@@ -128,6 +131,7 @@ function App() {
               <Route path="/placeorder" element={<PlaceOrder />} />
               <Route path="/order/:id" element={<Order />} />
               <Route path="/orderhistory" element={<OrderHistory />} />
+              <Route path="/search" element={<Search />} />
             </Routes>
           </Container>
         </main>

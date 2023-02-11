@@ -143,7 +143,7 @@ productRouter.get(
     const rating = query.rating || '';
     const order = query.order || '';
     const searchQuery = query.query || '';
-
+    console.log(query);
     const queryFilter =
       searchQuery && searchQuery !== 'all'
         ? {
