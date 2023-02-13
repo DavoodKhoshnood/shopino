@@ -68,6 +68,19 @@ const data = {
             numReviews: 18,
             description: 'High quality pants'
         },
+        {
+            // _id: 5,
+            name: 'Hoodrich Tycoon T-Shirt',
+            slug: 'hoodrich-tycoon-tshirt',
+            category: 'Shirts',
+            image: '/images/p5.jpg',
+            price: 40,
+            countInStock: 3,
+            brand: 'Hoodrich',
+            rating: 3.0,
+            numReviews: 3,
+            description: 'High quality T-Shirt'
+        },
     ]
 }
 

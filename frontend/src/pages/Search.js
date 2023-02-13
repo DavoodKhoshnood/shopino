@@ -1,23 +1,23 @@
-import axios from "axios";
-import React, { useEffect, useState, useReducer } from "react";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import { Helmet } from "react-helmet-async";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessageBox";
-import Rating from "../components/Rating";
-import { getError } from "../utils";
-import Product from "../components/Product";
-import LinkContainer from "react-router-bootstrap/LinkContainer";
+import axios from 'axios';
+import React, { useEffect, useState, useReducer } from 'react';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import { Helmet } from 'react-helmet-async';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import Rating from '../components/Rating';
+import { getError } from '../utils';
+import Product from '../components/Product';
+import LinkContainer from 'react-router-bootstrap/LinkContainer';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "FETCH_REQUEST":
+    case 'FETCH_REQUEST':
       return { ...state, loading: true };
-    case "FETCH_SUCCESS":
+    case 'FETCH_SUCCESS':
       return {
         ...state,
         loading: false,
@@ -26,7 +26,7 @@ const reducer = (state, action) => {
         pages: action.payload.pages,
         countProducts: action.payload.countProducts,
       };
-    case "FETCH_FAIL":
+    case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
@@ -35,34 +35,34 @@ const reducer = (state, action) => {
 
 const prices = [
   {
-    name: "£1 to £50",
-    value: "1-50",
+    name: '£1 to £50',
+    value: '1-50',
   },
   {
-    name: "£51 to £200",
-    value: "51-200",
+    name: '£51 to £200',
+    value: '51-200',
   },
   {
-    name: "£201 to £1000",
-    value: "201-1000",
+    name: '£201 to £1000',
+    value: '201-1000',
   },
 ];
 
 const ratings = [
   {
-    name: "4stars & up",
+    name: '4stars & up',
     rating: 4,
   },
   {
-    name: "3stars & up",
+    name: '3stars & up',
     rating: 3,
   },
   {
-    name: "2stars & up",
+    name: '2stars & up',
     rating: 2,
   },
   {
-    name: "1stars & up",
+    name: '1stars & up',
     rating: 1,
   },
 ];
@@ -71,17 +71,17 @@ const Search = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
   const searchPath = new URLSearchParams(search);
-  const category = searchPath.get("category") || "all";
-  const query = searchPath.get("query") || "all";
-  const price = searchPath.get("price") || "all";
-  const rating = searchPath.get("rating") || "all";
-  const order = searchPath.get("order") || "newest";
-  const page = searchPath.get("page") || 1;
+  const category = searchPath.get('category') || 'all';
+  const query = searchPath.get('query') || 'all';
+  const price = searchPath.get('price') || 'all';
+  const rating = searchPath.get('rating') || 'all';
+  const order = searchPath.get('order') || 'newest';
+  const page = searchPath.get('page') || 1;
 
   const [{ loading, error, products, pages, countProducts }, dispatch] =
     useReducer(reducer, {
       loading: true,
-      error: "",
+      error: '',
     });
 
   useEffect(() => {
@@ -91,12 +91,12 @@ const Search = () => {
           `/api/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`
         );
         dispatch({
-          type: "FETCH_SUCCESS",
+          type: 'FETCH_SUCCESS',
           payload: data,
         });
       } catch (err) {
         dispatch({
-          type: "FETCH_FAIL",
+          type: 'FETCH_FAIL',
           payload: getError(err),
         });
       }
@@ -141,8 +141,8 @@ const Search = () => {
             <ul>
               <li>
                 <Link
-                  className={"all" === category ? "text-bold" : ""}
-                  to={getFilterUrl({ category: "all" })}
+                  className={'all' === category ? 'text-bold' : ''}
+                  to={getFilterUrl({ category: 'all' })}
                 >
                   Any
                 </Link>
@@ -150,7 +150,7 @@ const Search = () => {
               {categories.map((cat) => (
                 <li key={cat}>
                   <Link
-                    className={cat === category ? "text-bold" : ""}
+                    className={cat === category ? 'text-bold' : ''}
                     to={getFilterUrl({ category: cat })}
                   >
                     {cat}
@@ -164,7 +164,7 @@ const Search = () => {
             <ul>
               <li>
                 <Link
-                  className={"all" === price ? "text-bold" : ""}
+                  className={'all' === price ? 'text-bold' : ''}
                   to={getFilterUrl({ price })}
                 >
                   Any
@@ -173,7 +173,7 @@ const Search = () => {
               {prices.map((p) => (
                 <li key={p.value}>
                   <Link
-                    className={p.value === price ? "text-bold" : ""}
+                    className={p.value === price ? 'text-bold' : ''}
                     to={getFilterUrl({ price: p.value })}
                   >
                     {p.name}
@@ -188,15 +188,15 @@ const Search = () => {
               {ratings.map((r) => (
                 <li key={r.name}>
                   <Link
-                    className={`${r.rating}` === `${rating}` ? "text-bold" : ""}
+                    className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
                   >
-                    <Rating caption={" & up"} rating={r.rating}></Rating>
+                    <Rating caption={' & up'} rating={r.rating}></Rating>
                   </Link>
                 </li>
               ))}
               <li>
-                <Link className={rating === "all" ? "text-bold" : ""}>
-                  <Rating caption={" & up"} rating={0}></Rating>
+                <Link className={rating === 'all' ? 'text-bold' : ''}>
+                  <Rating caption={' & up'} rating={0}></Rating>
                 </Link>
               </li>
             </ul>
@@ -212,18 +212,18 @@ const Search = () => {
               <Row className="justify-content-between mb-3">
                 <Col md={6}>
                   <div>
-                    {countProducts === 0 ? "No" : countProducts} Results
-                    {query !== "all" && " : " + query}
-                    {category !== "all" && " : " + category}
-                    {price !== "all" && " : Price " + price}
-                    {rating !== "all" && " : Rating " + rating}
-                    {query !== "all" &&
-                    category !== "all" &&
-                    rating !== "all" &&
-                    price !== "all" ? (
+                    {countProducts === 0 ? 'No' : countProducts} Results
+                    {query !== 'all' && ' : ' + query}
+                    {category !== 'all' && ' : ' + category}
+                    {price !== 'all' && ' : Price ' + price}
+                    {rating !== 'all' && ' : Rating ' + rating}
+                    {query !== 'all' &&
+                    category !== 'all' &&
+                    rating !== 'all' &&
+                    price !== 'all' ? (
                       <Button
                         variant="light"
-                        onClick={() => navigate("/search")}
+                        onClick={() => navigate('/search')}
                       >
                         <i className="fas fa-times-circle"></i>
                       </Button>
@@ -231,7 +231,7 @@ const Search = () => {
                   </div>
                 </Col>
                 <Col className="text-end">
-                  Sort by{" "}
+                  Sort by{' '}
                   <select
                     value={order}
                     onChange={(e) => {
@@ -261,12 +261,12 @@ const Search = () => {
                     key={x + 1}
                     className="mx-1"
                     to={{
-                      pathname: "/search",
+                      pathname: '/search',
                       seacrh: getFilterUrl({ page: x + 1 }, true),
                     }}
                   >
                     <Button
-                      className={Number(page) === x + 1 ? "text-bold" : ""}
+                      className={Number(page) === x + 1 ? 'text-bold' : ''}
                       variant="light"
                     >
                       {x + 1}
