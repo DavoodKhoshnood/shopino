@@ -266,7 +266,7 @@ const Search = () => {
                     className="mx-1"
                     to={{
                       pathname: '/search',
-                      seacrh: getFilterUrl({ page: x + 1 }, true),
+                      search: getFilterUrl({ page: x + 1 }, true),
                     }}
                   >
                     <Button
