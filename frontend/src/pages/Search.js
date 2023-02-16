@@ -165,7 +165,7 @@ const Search = () => {
               <li>
                 <Link
                   className={'all' === price ? 'text-bold' : ''}
-                  to={getFilterUrl({ price })}
+                  to={getFilterUrl({ price: 'all' })}
                 >
                   Any
                 </Link>
@@ -188,6 +188,7 @@ const Search = () => {
               {ratings.map((r) => (
                 <li key={r.name}>
                   <Link
+                    to={getFilterUrl({ rating: r.rating })}
                     className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
                   >
                     <Rating caption={' & up'} rating={r.rating}></Rating>
@@ -195,7 +196,10 @@ const Search = () => {
                 </li>
               ))}
               <li>
-                <Link className={rating === 'all' ? 'text-bold' : ''}>
+                <Link 
+                  to={getFilterUrl({ rating: 'all' })}
+                  className={rating === 'all' ? 'text-bold' : ''}
+                >
                   <Rating caption={' & up'} rating={0}></Rating>
                 </Link>
               </li>
