@@ -26,6 +26,9 @@ import { getError } from './utils';
 import axios from 'axios';
 import SearchBox from './components/SearchBox';
 import Search from './pages/Search';
+import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './pages/Dashboard';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -107,6 +110,22 @@ function App() {
                       Sign In{' '}
                     </Link>
                   )}
+                  {userInfo && userInfo.isAdmin && (
+                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                      <LinkContainer to="/admin/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/productlist">
+                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/orderlist">
+                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/userlist">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -138,8 +157,14 @@ function App() {
         <main>
           <Container>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/products/:slug" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/signin" element={<SignIn />} />
@@ -147,9 +172,33 @@ function App() {
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/payment" element={<PaymentMethod />} />
               <Route path="/placeorder" element={<PlaceOrder />} />
-              <Route path="/order/:id" element={<Order />} />
-              <Route path="/orderhistory" element={<OrderHistory />} />
+              <Route
+                path="/order/:id"
+                element={
+                  <ProtectedRoute>
+                    <Order />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orderhistory"
+                element={
+                  <ProtectedRoute>
+                    <OrderHistory />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/search" element={<Search />} />
+              <Route path="/" element={<Home />} />
+              {/* Admin Routes */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminRoute>
+                    <Dashboard />
+                  </AdminRoute>
+                }
+              />
             </Routes>
           </Container>
         </main>
