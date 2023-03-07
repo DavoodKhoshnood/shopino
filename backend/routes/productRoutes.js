@@ -138,7 +138,6 @@ productRouter.get(
     const { query } = req;
     const pageSize = query.pageSize || PAGE_SIZE;
     const page = query.page || 1;
-    console.log(page, pageSize);
     const category = query.category || "";
     const price = query.price || "";
     const rating = query.rating || "";
