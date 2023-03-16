@@ -1,134 +1,102 @@
-import axios from "axios";
-import { useContext, useEffect, useReducer } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-import Card from "react-bootstrap/Card";
-import Badge from "react-bootstrap/Badge";
-import Rating from "../components/Rating";
-import Button from "react-bootstrap/esm/Button";
-import { Helmet } from "react-helmet-async";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessageBox";
-import { getError } from "../utils";
-import { Store } from "../Store";
+import React, { useContext, useEffect, useReducer } from 'react';
+import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
+import { Store } from '../Store';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "FETCH_REQUEST":
+    case 'FETCH_REQUEST':
       return { ...state, loading: true };
-    case "FETCH_SUCCESS":
-      return { ...state, loading: false, product: action.payload };
-    case "FETCH_FAIL":
+    case 'FETCH_SUCCESS':
+      return {
+        ...state,
+        products: action.payload.products,
+        page: action.payload.page,
+        pages: action.payload.pages,
+        loading: false,
+      };
+    case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
+
     default:
       return state;
   }
 };
+
 const Products = () => {
-  const navigate = useNavigate();
-  const params = useParams();
-  const { slug } = params;
-  // const [products, setProducts] = useState([]);
-  const [{ loading, error, product }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, products, pages }, dispatch] = useReducer(reducer, {
     loading: true,
-    error: "",
-    product: [],
+    error: '',
   });
+
+  const { search, pathname } = useLocation();
+  const sp = new URLSearchParams(search);
+  const page = sp.get('page') || 1;
+
+  const { state } = useContext(Store);
+  const { userInfo } = state;
+
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: "FETCH_REQUEST" });
       try {
-        const result = await axios.get(`/api/products/slug/${slug}`);
-        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
-      } catch (err) {
-        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
-      }
+        const { data } = await axios.get(`/api/products/admin?page=${page} `, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+
+        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+      } catch (err) {}
     };
     fetchData();
-  }, [slug]);
+  }, [page, userInfo]);
 
-  const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart } = state; 
-  const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((item) => item._id === product._id)
-    const quantity = existItem ? existItem.quantity + 1 : 1;
-    const { data } = await axios.get(`/api/products/${product._id}`);
-    if ( data.countInStock < quantity ) {
-      window.alert('Product is out of stock');
-      return;
-    }
-    ctxDispatch({type: 'CART_ADD_ITEM', payload: {...product, quantity }});
-    navigate('/cart');
-  }
-
-  return loading ? (
-    <LoadingBox />
-  ) : error ? (
-    <MessageBox variant="danger">{error}</MessageBox>
-  ) : (
+  return (
     <div>
-      <Row>
-        <Col md={6}>
-          <img className="img-large" src={product.image} alt={product.name} />
-        </Col>
-        <Col md={3}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <Helmet>
-                <title>{product.name}</title>
-              </Helmet>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Rating rating={product.rating} numReview={product.numReview} />
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <strong>Price: £{product.price}</strong>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              Description: <p>{product.description}</p>
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={3}>
-          <Card>
-            <Card.Body>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Price:</Col>
-                    <Col>£{product.price}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Status:</Col>
-                    <Col>
-                      {product.countInStock > 0 ? (
-                        <Badge bg="success">In Stock</Badge>
-                      ) : (
-                        <Badge bg="danger">Out of Stock</Badge>
-                      )}
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  {product.countInStock > 0 && (
-                    <ListGroup.Item>
-                      <div className="d-grid">
-                        <Button onClick={addToCartHandler} variant="primary">Add to Cart</Button>
-                      </div>
-                    </ListGroup.Item>
-                  )}
-                </ListGroup.Item>
-              </ListGroup>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      <h1>Products</h1>
+      {loading ? (
+        <LoadingBox></LoadingBox>
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
+      ) : (
+        <>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>PRICE</th>
+                <th>CATEGORY</th>
+                <th>BRAND</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id}>
+                  <td>{product._id}</td>
+                  <td>{product.name}</td>
+                  <td>{product.price}</td>
+                  <td>{product.category}</td>
+                  <td>{product.brand}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div>
+            {[...Array(pages).keys()].map((x) => (
+              <Link
+                className={x + 1 === Number(page) ? 'btn text-bold' : 'btn'}
+                key={x + 1}
+                to={`/admin/products?page=${x + 1}`}
+              >
+                {x + 1}
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
-};
+}
 
-export default Products;
+export default Products
