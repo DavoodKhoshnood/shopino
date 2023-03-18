@@ -30,6 +30,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import AdminRoute from './components/AdminRoute';
 import Products from './pages/Products';
+import ProductEdit from './pages/ProductEdit';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -205,6 +206,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <Products />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/product/:id"
+                element={
+                  <AdminRoute>
+                    <ProductEdit />
                   </AdminRoute>
                 }
               />
