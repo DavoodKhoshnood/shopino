@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Store } from '../Store';
 import { getError } from '../utils';
@@ -34,6 +34,7 @@ const reducer = (state, action) => {
   }
 };
 const ProductEdit = () => {
+  const navigate = useNavigate();
   const params = useParams(); // /product/:id
   const { id: productId } = params;
 
@@ -48,6 +49,7 @@ const ProductEdit = () => {
   const [slug, setSlug] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
+  const [images, setImages] = useState([]);
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState('');
   const [brand, setBrand] = useState('');
@@ -62,6 +64,7 @@ const ProductEdit = () => {
         setSlug(data.slug);
         setPrice(data.price);
         setImage(data.image);
+        setImages(data.images);
         setCategory(data.category);
         setCountInStock(data.countInStock);
         setBrand(data.brand);
@@ -76,6 +79,39 @@ const ProductEdit = () => {
     };
     dataFetch();
   }, [productId]);
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch({ type: 'UPDATE_REQUEST' });
+      await axios.put(
+        `/api/products/${productId}`,
+        {
+          _id: productId,
+          name,
+          slug,
+          price,
+          image,
+          images,
+          category,
+          brand,
+          countInStock,
+          description,
+        },
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: 'UPDATE_SUCCESS',
+      });
+      toast.success('Product updated successfully');
+      navigate('/admin/products');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'UPDATE_FAIL' });
+    }
+  };
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -111,7 +147,7 @@ const ProductEdit = () => {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <Form>
+        <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -182,7 +218,10 @@ const ProductEdit = () => {
             />
           </Form.Group>
           <div className="mb-3">
-            <Button type="submit">Update</Button>
+            <Button disabled={loadingUpdate} type="submit">
+              Update
+            </Button>
+            {loadingUpdate && <LoadingBox></LoadingBox>}
           </div>
         </Form>
       )}

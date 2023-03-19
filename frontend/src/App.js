@@ -31,6 +31,7 @@ import Dashboard from './pages/Dashboard';
 import AdminRoute from './components/AdminRoute';
 import Products from './pages/Products';
 import ProductEdit from './pages/ProductEdit';
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -168,6 +169,7 @@ function App() {
                 }
               />
               <Route path="/products/:slug" element={<Product />} />
+              <Route path="/product/:slug" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<Signup />} />
