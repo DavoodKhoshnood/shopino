@@ -1,11 +1,11 @@
 :root {
-  /* --first-color: #f0c040;
-  --second-color: #f08000; 
-  --rating-color: #ff9000; */
+  --first-color: #f0c040;
+  --second-color: #fa8000; 
+  --rating-color: #ff9000;
 
-  --first-color: #10c0ff;
+  /* --first-color: #10c0ff;
   --second-color: #108090; 
-  --rating-color: #303099;
+  --rating-color: #303099; */
 }
 
 body {
@@ -51,9 +51,20 @@ main {
   color: var(--rating-color)
 }
 
-.btn-primary, .btn-outline-primary {
+.btn-primary {
   background-color: var(--first-color);
+  border-color: var(--socond-color);
   color: #000;
+}
+.btn-outline-primary {
+  border-color: var(--first-color);
+  color: var(--first-color);
+}
+
+.btn-primary:hover, .btn-outline-primary:hover {
+  background-color: var(--second-color);
+  border-color: var(--first-color);
+  color: #fff;
 }
 
 .img-large {
