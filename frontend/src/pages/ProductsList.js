@@ -52,7 +52,7 @@ const reducer = (state, action) => {
   }
 };
 
-const Products = () => {
+const ProductsList = () => {
   const [{ loading, error, products, pages, loadingCreate, loadingDelete, successDelete, }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
@@ -204,4 +204,4 @@ const Products = () => {
   );
 }
 
-export default Products
+export default ProductsList

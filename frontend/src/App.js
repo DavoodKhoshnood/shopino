@@ -11,7 +11,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { Store } from './Store';
 import Home from './pages/Home';
-import Product from './pages/Products';
+import ProductsList from './pages/ProductsList';
+import OrdersList from './pages/OrdersList';
 import Cart from './pages/Cart';
 import SignIn from './pages/SignIn';
 import Shipping from './pages/Shipping';
@@ -29,7 +30,6 @@ import Search from './pages/Search';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import AdminRoute from './components/AdminRoute';
-import Products from './pages/Products';
 import ProductEdit from './pages/ProductEdit';
 import ProductDetails from './pages/ProductDetails';
 
@@ -168,7 +168,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route path="/products/:slug" element={<Product />} />
+              <Route path="/products/:slug" element={<ProductsList />} />
               <Route path="/product/:slug" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/signin" element={<SignIn />} />
@@ -207,7 +207,15 @@ function App() {
                 path="/admin/products"
                 element={
                   <AdminRoute>
-                    <Products />
+                    <ProductsList />
+                  </AdminRoute>
+                }
+              />
+            <Route
+                path="/admin/orders"
+                element={
+                  <AdminRoute>
+                    <OrdersList />
                   </AdminRoute>
                 }
               />
