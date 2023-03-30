@@ -1,12 +1,22 @@
 import express, { response } from 'express';
 import User from '../models/userModel.js';
 import expressAsyncHandler from 'express-async-handler';
-import { isAuth, generateToken } from '../utils.js';
+import { isAuth, isAdmin, generateToken } from '../utils.js';
 import bcrypt from 'bcryptjs';
 
-const userRuoter = express.Router();
+const userRouter = express.Router();
 
-userRuoter.post(
+userRouter.get(
+    '/',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+      const users = await User.find({});
+      res.send(users);
+    })
+  )
+
+userRouter.post(
     '/signin',
     expressAsyncHandler(async (req, res) => {
         const { email, password } = req.body;
@@ -27,7 +37,7 @@ userRuoter.post(
     })
 )
 
-userRuoter.post(
+userRouter.post(
     '/signup',
     expressAsyncHandler(async (req, res) => {
         const newUser = new User({
@@ -45,7 +55,7 @@ userRuoter.post(
         })
     }))
 
-userRuoter.put(
+userRouter.put(
     '/profile',
     isAuth,
     expressAsyncHandler(async (req, res) => {
@@ -68,4 +78,4 @@ userRuoter.put(
      } else { response.status(404).send({message: 'User not found!'})}  
     })
 )
-export default userRuoter;
+export default userRouter;

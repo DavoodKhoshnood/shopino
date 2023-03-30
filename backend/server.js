@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import seedRouter from "./routes/seedRoutes.js";
 import productRouter from "./routes/productRoutes.js";
-import userRuoter from "./routes/userRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
 import uploadRouter from './routes/uploadRoutes.js';
 
@@ -31,7 +31,7 @@ app.get('/order/api/keys/paypal', (req, res) => {
 app.use('/api/upload', uploadRouter);
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
-app.use('/api/users', userRuoter);
+app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 
 const __dirname = path.resolve();
