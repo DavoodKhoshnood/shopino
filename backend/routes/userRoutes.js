@@ -14,7 +14,21 @@ userRouter.get(
       const users = await User.find({});
       res.send(users);
     })
-  )
+)
+
+userRouter.get(
+    '/:id',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+      const user = await User.findById(req.params.id);
+      if (user) {
+        res.send(user);
+      } else {
+        res.status(404).send({ message: 'User Not Found' });
+      }
+    })
+)
 
 userRouter.post(
     '/signin',
@@ -56,6 +70,24 @@ userRouter.post(
     }))
 
 userRouter.put(
+    '/:id',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+        const user = await User.findById(req.params.id);
+        if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.isAdmin = Boolean(req.body.isAdmin);
+        const updatedUser = await user.save();
+        res.send({ message: 'User Updated', user: updatedUser });
+        } else {
+        res.status(404).send({ message: 'User Not Found' });
+        }
+    })
+)
+
+userRouter.put(
     '/profile',
     isAuth,
     expressAsyncHandler(async (req, res) => {
@@ -78,4 +110,5 @@ userRouter.put(
      } else { response.status(404).send({message: 'User not found!'})}  
     })
 )
+
 export default userRouter;

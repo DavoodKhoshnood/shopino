@@ -125,7 +125,7 @@ const deleteHandler = async (order) => {
                 <td>
                   <Button
                     type="button"
-                    variant="light"
+                    variant="outline-primary"
                     onClick={() => {
                       navigate(`/order/${order._id}`);
                     }}
@@ -135,7 +135,7 @@ const deleteHandler = async (order) => {
                   &nbsp;
                   <Button
                     type="button"
-                    variant="light"
+                    variant="outline-danger"
                     onClick={() => deleteHandler(order)}
                   >
                     Delete

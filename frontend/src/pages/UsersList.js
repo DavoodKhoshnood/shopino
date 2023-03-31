@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useReducer } from 'react';
+import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
@@ -24,11 +26,13 @@ const reducer = (state, action) => {
   }
 };
 const UsersList = () => {
+
   const [{ loading, error, users }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',
   });
 
+  const navigate = useNavigate();
   const { state } = useContext(Store);
   const { userInfo } = state;
 
@@ -77,7 +81,15 @@ const UsersList = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.isAdmin ? 'YES' : 'NO'}</td>
-                <td></td>
+                <td>
+                  <Button
+                    type="button"
+                    variant="outline-primary"
+                    onClick={() => navigate(`/admin/user/${user._id}`)}
+                  >
+                    Edit
+                  </Button>
+                </td>              
               </tr>
             ))}
           </tbody>
