@@ -150,6 +150,7 @@ const ProductsList = () => {
           <table className="table">
             <thead>
               <tr>
+                <th>Image</th>
                 <th>ID</th>
                 <th>NAME</th>
                 <th>PRICE</th>
@@ -161,6 +162,7 @@ const ProductsList = () => {
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
+                  <td><img className='img-thumbnail' src={product.image} alt={product._id} /></td>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
                   <td>{product.price}</td>
