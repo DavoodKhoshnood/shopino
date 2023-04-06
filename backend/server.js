@@ -24,6 +24,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
+app.get('/api/keys/google', (req, res) => {
+  res.send({ key: process.env.GOOGLE_API_KEY || '' })
+})
+
 app.get('/order/api/keys/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 })

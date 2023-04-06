@@ -34,10 +34,11 @@ import ProductEdit from './pages/ProductEdit';
 import ProductDetails from './pages/ProductDetails';
 import UsersList from './pages/UsersList';
 import UserEdit from './pages/UserEdit';
+import Map from './pages/Map';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
+  const { cart, userInfo, fullBox } = state;
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const signoutHandler = () => {
@@ -64,8 +65,12 @@ function App() {
       <div
         className={
           sidebarIsOpen
-            ? 'd-flex flex-column site-container active-cont'
-            : 'd-flex flex-column site-container'
+            ? fullBox
+              ? 'site-container active-cont d-flex flex-column full-box'
+              : 'site-container active-cont d-flex flex-column'
+            : fullBox
+            ? 'site-container d-flex flex-column full-box'
+            : 'site-container d-flex flex-column'
         }
       >
         <ToastContainer position="bottom-center" limit={1} />
@@ -178,6 +183,14 @@ function App() {
               <Route path="/shipping" element={<Shipping />} />
               <Route path="/payment" element={<PaymentMethod />} />
               <Route path="/placeorder" element={<PlaceOrder />} />
+              <Route
+                path="/map"
+                element={
+                  <ProtectedRoute>
+                    <Map />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/order/:id"
                 element={

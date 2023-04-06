@@ -138,7 +138,7 @@ const ProductEdit = () => {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Edit Product ${productId}</title>
+        <title> Edit Product ${productId}</title>
       </Helmet>
       <h1>Edit Product {productId}</h1>
 
@@ -148,6 +148,9 @@ const ProductEdit = () => {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <Form onSubmit={submitHandler}>
+          <Form.Group controlId="image">
+            <Form.Control className="img-thumbnail" type="image" src={image} />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -184,7 +187,7 @@ const ProductEdit = () => {
             <Form.Label>Upload File</Form.Label>
             <Form.Control type="file" onChange={uploadFileHandler} />
             {loadingUpload && <LoadingBox></LoadingBox>}
-          </Form.Group>
+          </Form.Group>          
           <Form.Group className="mb-3" controlId="category">
             <Form.Label>Category</Form.Label>
             <Form.Control
