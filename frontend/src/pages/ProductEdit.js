@@ -162,7 +162,7 @@ const ProductEdit = () => {
       ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="image">
-            <Form.Control className="img-thumbnail" type="image" src={image} />
+          <Form.Control className="img mb-3" type="image" src={image} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="name">
             <Form.Label>Name</Form.Label>
