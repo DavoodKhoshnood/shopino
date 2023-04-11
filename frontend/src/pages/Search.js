@@ -253,6 +253,7 @@ const Search = () => {
                 <MessageBox>No Product Found</MessageBox>
               )}
               <Row>
+              {console.log(products.length)}
                 {products.map((product) => (
                   <Col sm={6} lg={4} className="mb-3" key={product._id}>
                     <Product product={product}></Product>
