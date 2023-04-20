@@ -47,6 +47,13 @@ main {
   padding: 1rem;
 }
 
+.card-body {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .rating span {
   color: var(--rating-color)
 }
@@ -203,4 +210,18 @@ main {
 
 button.thumbnail {
   padding: 0;
+}
+
+.button-caption {
+  right: 1.5%;
+  text-align: right;
+  max-width: 300px;
+  left: auto;
+  padding:15px;
+}
+
+.button-caption button {
+  width: 150px;
+  height: 70px;
+  background-color: #fff;
 }
