@@ -6,12 +6,12 @@ import Carousel from './CarouselShow';
 const Advertisement = () => {
   return (
     <>
-      <Row className="d-none d-lg-block">
-        <Col sm={0} mb={0} lg={12} className="mb-3">
+      <Row className="d-none d-lg-block mb-3">
+        <Col sm={0} mb={0} lg={12} className="mt-3">
           <Carousel />
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-4">
         <Col sm={12} mb={6} lg={6} className="mb-3">
           <img
             className="w-100 rounded"

@@ -54,6 +54,11 @@ main {
   justify-content: space-between;
 }
 
+.first-carousel-container {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
 .rating span {
   color: var(--rating-color)
 }
