@@ -15,23 +15,23 @@ const CarouselShow = () => {
           <Slide.Item>
             <img
               className="d-block w-100 rounded"
-              src="/images/desktop-middle-banner-1704x740-69-90425bf4cc1f121210cdd990e59285e0.webp"
-              alt="First slide"
-              />
-            <Slide.Caption className='button-caption'>
-              <Button >Shop Now</Button>
-            </Slide.Caption>
-          </Slide.Item>
-          <Slide.Item>
-            <img
-              className="d-block w-100 rounded"
-              src="/images/desktop-middle-banner-1704x740-2-518bba61a1c7e5ee6a4a9dddf21a35e8.webp"
+              src="/images/desktop-middle-banner-1704x740-2-518bba61a1c7e5ee6a4a9dddf.jpg"
               alt="Second slide"
             />
     
             <Slide.Caption>
               <h3>Step into elegance</h3>
               <p> with our stunning new dress collection, designed to make you feel confident, chic, and absolutely fabulous.</p>
+            </Slide.Caption>
+          </Slide.Item>
+          <Slide.Item>
+            <img
+              className="d-block w-100 rounded"
+              src="/images/desktop-middle-ban-1704x740-2-518bba61a1c7e5ee6a4a9dryuc46dtb3.webp"
+              alt="First slide"
+              />
+            <Slide.Caption className='button-caption'>
+              <Button >Shop Now</Button>
             </Slide.Caption>
           </Slide.Item>
           <Slide.Item>

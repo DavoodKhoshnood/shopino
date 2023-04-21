@@ -56,7 +56,7 @@ main {
 
 .first-carousel-container {
   background-color: #f4f4f4;
-  border-radius: 8px;
+  border-radius: var(--bs-border-radius);
 }
 
 .rating span {
@@ -218,10 +218,10 @@ button.thumbnail {
 }
 
 .button-caption {
-  right: 1.5%;
-  text-align: right;
+  left: 1.5%;
+  text-align: left;
   max-width: 300px;
-  left: auto;
+  right: auto;
   padding:15px;
 }
 
