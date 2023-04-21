@@ -82,7 +82,7 @@ return (
 
           {products.map(product => 
              (
-              <Col sm={4} md={6} lg={12} className="mb-3 p-3" key={product.slug} >
+              <Col sm={4} md={6} lg={12} className="p-3" key={product.slug} >
                     <Product product={product}/>
                 </Col>
              )
