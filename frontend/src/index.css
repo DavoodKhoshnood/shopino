@@ -38,6 +38,10 @@ main {
   margin: 1rem;
 }
 
+.product-cart:hover {
+  box-shadow: 10px 10px 11px -15px #000;
+}
+
 .product img {
   width: 100%;
   max-width: 400px;

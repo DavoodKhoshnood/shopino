@@ -23,7 +23,7 @@ const Product = ({product}) => {
   };
 
   return (
-    <Card key={product.slug}>
+    <Card key={product.slug} className=' product-cart'>
       <Link to={`/product/${product.slug}`}>
         <img src={product.image} alt={product.name} className="card-img-top"/>
       </Link>
@@ -33,7 +33,7 @@ const Product = ({product}) => {
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
           <Card.Text>£{product.price}</Card.Text>
-        <Button onClick={()=> addToCartHandler(product)}>Add to cart</Button>
+        <Button onClick={()=> addToCartHandler(product)}>Add to Cart</Button>
       </Card.Body>
     </Card>
   );
