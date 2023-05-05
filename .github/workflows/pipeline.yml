@@ -9,6 +9,17 @@ jobs:
     steps: 
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Install Client
+      working-directory: ./frontend
+      run: |
+        npm install
+    - name: Install Server
+      working-directory: ./backend
+      run: |
+        npm install
+        export MONGODB_URI=$MONGODB_URI
+        export JWT_SECRET=$JWT_SECRET
+        export PAYPAL_CLIENT_ID=$PAYPAL_CLIENT_ID
     - name: Run Cypress Test
       uses: cypress-io/github-action@v4
       with:
