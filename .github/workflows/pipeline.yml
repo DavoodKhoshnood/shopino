@@ -1,28 +1,50 @@
-name: Build and Deploy
-on: 
+name: deploy
+
+on:
+  pull_request:
+    branches: [master]
   push:
-    branches:
-      - main
+    branches: [master]
+
 jobs:
-  Cypress-Test:
+  checks:
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
-    steps: 
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install Client
-      working-directory: ./frontend
-      run: |
-        npm install
-    - name: Install Server
-      working-directory: ./backend
-      run: |
-        npm install
-        export MONGODB_URI=$MONGODB_URI
-        export JWT_SECRET=$JWT_SECRET
-        export PAYPAL_CLIENT_ID=$PAYPAL_CLIENT_ID
-    - name: Run Cypress Test
-      uses: cypress-io/github-action@v4
-      with:
-        working-directory: ./frontend
-        command: npx cypress run
-        browser: chrome
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Test Build
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          npm run build
+  gh-release:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Build
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          npm run build
+      - name: Release to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
