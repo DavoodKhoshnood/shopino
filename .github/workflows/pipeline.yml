@@ -48,3 +48,14 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: ./frontend_new
+          build: npm run build:testing
+          start: npm run start:integration-test-server
+          record: true
+        env:
+          CI: true
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
