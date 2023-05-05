@@ -41,6 +41,7 @@ function App() {
   const { cart, userInfo, fullBox } = state;
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
@@ -49,6 +50,7 @@ function App() {
     localStorage.removeItem('placeOrder');
     window.location.href = '/signin';
   };
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -60,8 +62,9 @@ function App() {
     };
     fetchCategories();
   }, []);
+
   return (
-    <BrowserRouter>
+    <BrowserRouter >
       <div
         className={
           sidebarIsOpen
@@ -86,6 +89,7 @@ function App() {
               <LinkContainer to="/">
                 <Navbar.Brand>Shopino</Navbar.Brand>
               </LinkContainer>
+
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <SearchBox />
@@ -144,11 +148,11 @@ function App() {
         <div
           className={
             sidebarIsOpen
-              ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
+              ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column '
               : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
           }
         >
-          <Nav className="flex-column text-white w-100 p-2">
+          <Nav className="flex-column text-white w-100 p-4">
             <Nav.Item>
               <strong>Categories</strong>
             </Nav.Item>
@@ -164,7 +168,7 @@ function App() {
             ))}
           </Nav>
         </div>
-        <main>
+        <main className={sidebarIsOpen && 'd-none'}>
           <Container>
             <Routes>
               <Route

@@ -1,0 +1,28 @@
+name: Build and Deploy
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+steps: 
+  - name: Checkout code
+    uses: actions/checkout@v3
+
+  - name: Install and Test Client
+    working-directory: ./frontend
+    run: |
+      npm install
+      npm run test
+  
+  - name: Install and Test Server
+    working-directory: ./backend
+    run: |
+      npm install
+      export MONGODB_URI=$MONGODB_URI
+      export JWT_SECRET=$JWT_SECRET
+      export PAYPAL_CLIENT_ID=$PAYPAL_CLIENT_ID
+      npm run test

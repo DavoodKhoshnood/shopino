@@ -17,7 +17,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 .inside-container {
   min-height: 100vh;
 }
@@ -152,10 +151,11 @@ main {
   transition: 0.4s;
 }
 .side-navbar {
-  width: 240px;
+  width:240px;
   height: 100%;
   position: absolute;
-  left: -240px;
+  z-index: 1;
+  left: -2000px;
   background-color: #100901;
   transition: 0.4s;
   color: var(--first-color);

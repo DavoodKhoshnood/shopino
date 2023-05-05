@@ -20,7 +20,7 @@ const SearchBox = () => {
           name="q"
           id="q"
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="search products..."
+          placeholder="Search Products..."
           aria-label="Search Products"
           aria-describedby="button-serch"
         ></FormControl>
