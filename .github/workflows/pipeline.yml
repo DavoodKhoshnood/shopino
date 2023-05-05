@@ -6,19 +6,19 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-  steps: 
+    steps: 
     - name: Checkout code
-        uses: actions/checkout@v3
+      uses: actions/checkout@v3
     - name: Install and Test Client
-        working-directory: ./frontend
-        run: |
-          npm install
-          npm run test
+      working-directory: ./frontend
+      run: |
+        npm install
+        npm run test
     - name: Install and Test Server
-        working-directory: ./backend
-        run: |
-          npm install
-          export MONGODB_URI=$MONGODB_URI
-          export JWT_SECRET=$JWT_SECRET
-          export PAYPAL_CLIENT_ID=$PAYPAL_CLIENT_ID
-          npm run test
+      working-directory: ./backend
+      run: |
+        npm install
+        export MONGODB_URI=$MONGODB_URI
+        export JWT_SECRET=$JWT_SECRET
+        export PAYPAL_CLIENT_ID=$PAYPAL_CLIENT_ID
+        npm run test
