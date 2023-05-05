@@ -168,7 +168,7 @@ function App() {
             ))}
           </Nav>
         </div>
-        <main className={sidebarIsOpen && 'd-none'}>
+        <main>
           <Container>
             <Routes>
               <Route

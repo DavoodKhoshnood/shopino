@@ -155,7 +155,7 @@ main {
   height: 100%;
   position: absolute;
   z-index: 1;
-  left: -2000px;
+  left: -1000px;
   background-color: #100901;
   transition: 0.4s;
   color: var(--first-color);
