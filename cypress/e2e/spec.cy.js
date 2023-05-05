@@ -1,6 +1,6 @@
 describe('My First Test', () => {
   it('Click on Sign In', () => {
-    cy.visit('/')
+    cy.visit('http://localhost:5001')
 
     cy.contains('Add to Cart').click({force: true})
     
