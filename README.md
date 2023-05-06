@@ -11,3 +11,5 @@ This project is a fully-functional eCommerce online shop built using the MERN st
 - User-friendly interface for customers to browse products, add items to their cart, and check out using PayPal.
 - Integration with PayPal for secure and efficient payment processing.
 - Robust and scalable platform for managing product data, user accounts, and order details.
+
+## License
