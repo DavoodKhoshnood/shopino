@@ -21,6 +21,13 @@ jobs:
         with:
           node-version: '14.x'
       
+      - name: Setup Expo
+        uses: expo/expo-github-action@v6
+        with:
+          expo-version: 4.x
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-cache: true
+      
       - name: Install dependencies
         run: |
           if [ -e yarn.lock ]; then
