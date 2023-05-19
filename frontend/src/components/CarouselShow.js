@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Slide from 'react-bootstrap/Carousel';
-import Button from 'react-bootstrap/esm/Button';
+import Button from 'react-bootstrap/Button';
 
 const CarouselShow = () => {
     

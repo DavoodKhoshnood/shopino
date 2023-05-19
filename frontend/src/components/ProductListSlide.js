@@ -4,7 +4,7 @@ import 'react-multi-carousel/lib/styles.css';
 import Product from "./Product";
 import axios from "axios";
 import { getError } from "../utils";
-import Col from "react-bootstrap/esm/Col";
+import Col from "react-bootstrap/Col";
 import LoadingBox from "./LoadingBox";
 import MessageBox from "./MessageBox";
 

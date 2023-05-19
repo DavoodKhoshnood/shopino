@@ -57,9 +57,8 @@ export default function Order() {
   const params = useParams();
   const { id: orderId } = params;
 
-  // const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const navigate = useNavigate();
-  const [{ loading, error, order, successPay, loadingPay, loadingDeliver, successDeliver, }, dispatch] =
+  const [{ loading, error, order, successPay, loadingPay, successDeliver, }, dispatch] =
     useReducer(reducer, {
       loading: true,
       error: "",

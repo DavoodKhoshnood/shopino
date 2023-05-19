@@ -9,7 +9,7 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
-import { Store } from './Store';
+import { Store } from './Store.js';
 import Home from './pages/Home';
 import ProductsList from './pages/ProductsList';
 import OrdersList from './pages/OrdersList';
@@ -38,7 +38,7 @@ import Map from './pages/Map';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo, fullBox } = state;
+  const { fullBox, cart, userInfo } = state;
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   

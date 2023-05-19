@@ -1,6 +1,6 @@
 import React from 'react';
-import Col from 'react-bootstrap/esm/Col';
-import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Carousel from './CarouselShow';
 
 const Advertisement = () => {
