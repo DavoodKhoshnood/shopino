@@ -266,7 +266,7 @@ function App() {
           </Container>
         </main>
         <footer>
-          <div className="text-center mb-3">All rights reserved</div>
+          <div className="text-center mb-3">All rights reserved by Shopino</div>
         </footer>
       </div>
     </BrowserRouter>
