@@ -12,6 +12,7 @@ const Advertisement = () => {
         </Col>
       </Row>
       <Row className="mt-4">
+        
         <Col sm={12} mb={6} lg={6} className="mb-3">
           <img
             className="w-100 rounded"
